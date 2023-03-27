@@ -33,6 +33,8 @@ allprojects {
     project.plugins.withType(JavaPlugin::class) {
         dependencies {
             "errorprone"("com.google.errorprone:error_prone_core:2.18.0")
+            "implementation"("com.fasterxml.jackson.core:jackson-core:2.14.2")
+            "implementation"("com.fasterxml.jackson.core:jackson-databind:2.14.2")
         }
     }
 

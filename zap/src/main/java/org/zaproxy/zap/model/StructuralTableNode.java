@@ -139,12 +139,12 @@ public class StructuralTableNode implements StructuralNode {
 
     @Override
     public String getRegexPattern() throws DatabaseException {
-        return this.getRegexPattern(true);
+        return this.getRegexPattern(true, false);
     }
 
     @Override
-    public String getRegexPattern(boolean incChildren) throws DatabaseException {
-        return SessionStructure.getRegexPattern(this, incChildren);
+    public String getRegexPattern(boolean incChildren, boolean isForUI) throws DatabaseException {
+        return SessionStructure.getRegexPattern(this, incChildren, isForUI);
     }
 
     @Override

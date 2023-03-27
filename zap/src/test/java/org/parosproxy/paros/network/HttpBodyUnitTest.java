@@ -1205,6 +1205,32 @@ class HttpBodyUnitTest extends HttpBodyTestUtils {
         assertThat(httpBody.hashCode(), is(not(equalTo(otherHttpBody.hashCode()))));
     }
 
+    @Test
+    void shouldToStringFormattedToPrettyJson() {
+        // Given
+        HttpBody httpBody =
+                new HttpBodyImpl(
+                        "{\"a\":77, \"b\":33, \"c\":\"some string\", \"list\": [\"item1\",\"item2\"]}");
+        // When // Then
+        assertThat(
+                httpBody.toString(),
+                is(
+                        "{\n"
+                                + "  \"a\" : 77,\n"
+                                + "  \"b\" : 33,\n"
+                                + "  \"c\" : \"some string\",\n"
+                                + "  \"list\" : [ \"item1\", \"item2\" ]\n"
+                                + "}"));
+    }
+
+    @Test
+    void shouldToStringUnmodified() {
+        // Given
+        HttpBody httpBody = new HttpBodyImpl("can't be formatted to pretty json");
+        // When // Then
+        assertThat(httpBody.toString(), is("can't be formatted to pretty json"));
+    }
+
     private static byte[] bytes(String data) {
         return data.getBytes(StandardCharsets.US_ASCII);
     }

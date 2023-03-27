@@ -103,12 +103,16 @@ public class StructuralSiteNode implements StructuralNode {
 
     @Override
     public String getRegexPattern() throws DatabaseException {
-        return this.getRegexPattern(true);
+        return this.getRegexPattern(true, false);
     }
 
     @Override
+    public String getRegexPattern(boolean incChildren, boolean isForUI) throws DatabaseException {
+        return SessionStructure.getRegexPattern(this, incChildren, isForUI);
+    }
+
     public String getRegexPattern(boolean incChildren) throws DatabaseException {
-        return SessionStructure.getRegexPattern(this, incChildren);
+        return SessionStructure.getRegexPattern(this, incChildren, false);
     }
 
     @Override

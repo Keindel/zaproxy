@@ -147,7 +147,7 @@ class JsonBasedAuthenticationMethodTypeUnitTest extends WithConfigsTest {
         String test = "/shouldEncodeSpacesInBody/test";
         String pollUrl = "/shouldEncodeSpacesInBody/pollUrl";
         String pollData =
-                "{ \"user\": \"" + PostBasedAuthenticationMethod.MSG_USER_PATTERN + "\" }";
+                "{\n  \"user\" : \"" + PostBasedAuthenticationMethod.MSG_USER_PATTERN + "\"\n}";
         String username = "user name";
         final List<String> orderedReqData = new ArrayList<>();
 

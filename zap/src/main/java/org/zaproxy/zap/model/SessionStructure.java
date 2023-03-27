@@ -467,8 +467,8 @@ public class SessionStructure {
      * @return a regex pattern that will match the specified StructuralNode, ignoring the parent and
      *     children.
      */
-    public static String getRegexName(StructuralNode sn, boolean incParams) {
-        return getSpecifiedName(sn, incParams, true);
+    public static String getRegexName(StructuralNode sn, boolean incParams, boolean isForUI) {
+        return getSpecifiedName(sn, incParams, true, isForUI);
     }
 
     /**
@@ -480,12 +480,13 @@ public class SessionStructure {
      * @param incParams if true then include URL params in the regex, otherwise exclude them
      * @return the name of the node ignoring the parent and children
      */
-    public static String getCleanRelativeName(StructuralNode sn, boolean incParams) {
-        return getSpecifiedName(sn, incParams, false);
+    public static String getCleanRelativeName(
+            StructuralNode sn, boolean incParams, boolean isForUI) {
+        return getSpecifiedName(sn, incParams, false, isForUI);
     }
 
     private static String getSpecifiedName(
-            StructuralNode sn, boolean incParams, boolean dataDrivenNodesAsRegex) {
+            StructuralNode sn, boolean incParams, boolean dataDrivenNodesAsRegex, boolean isForUI) {
         String name = sn.getName();
         if (sn.isDataDriven() && dataDrivenNodesAsRegex) {
             // Non-greedy regex pattern
@@ -497,7 +498,7 @@ public class SessionStructure {
             name = name.substring(0, bracketIndex);
         }
         int queryIndex = name.indexOf("?");
-        if (queryIndex >= 0) {
+        if (queryIndex >= 0 && !isForUI) {
             if (incParams) {
                 // Escape the params
                 String params = name.substring(queryIndex);
@@ -532,10 +533,10 @@ public class SessionStructure {
     }
 
     public static String getRegexPattern(StructuralNode sn) throws DatabaseException {
-        return getRegexPattern(sn, true);
+        return getRegexPattern(sn, true, false);
     }
 
-    public static String getRegexPattern(StructuralNode sn, boolean incChildren)
+    public static String getRegexPattern(StructuralNode sn, boolean incChildren, boolean isForUI)
             throws DatabaseException {
         /*
          * The logic...
@@ -554,7 +555,7 @@ public class SessionStructure {
             if (lastLeafReturned) {
                 sb.insert(0, "/");
             }
-            sb.insert(0, getRegexName(sn, incParams));
+            sb.insert(0, getRegexName(sn, incParams, isForUI));
             sn = sn.getParent();
             incParams = false; // Only do this for the top node
             lastLeafReturned = true;

@@ -521,12 +521,13 @@ public class HostProcess implements Runnable {
                 // Note that this is only done for the top level
                 try {
                     Iterator<StructuralNode> iter = node.getParent().getChildIterator();
-                    String nodeName = SessionStructure.getCleanRelativeName(node, false);
+                    String nodeName = SessionStructure.getCleanRelativeName(node, false, false);
                     while (iter.hasNext()) {
                         StructuralNode sibling = iter.next();
                         if (!node.isSameAs(sibling)
                                 && nodeName.equals(
-                                        SessionStructure.getCleanRelativeName(sibling, false))) {
+                                        SessionStructure.getCleanRelativeName(
+                                                sibling, false, false))) {
                             LOGGER.debug(
                                     "traverse: including related sibling {}", sibling.getName());
                             parentNodes.add(sibling);

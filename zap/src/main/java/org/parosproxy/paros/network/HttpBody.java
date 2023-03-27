@@ -32,6 +32,9 @@
 // ZAP: 2023/01/10 Tidy up logger.
 package org.parosproxy.paros.network;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
@@ -80,6 +83,8 @@ public abstract class HttpBody {
     private boolean contentEncodingErrors;
 
     private List<HttpEncoding> encodings = Collections.emptyList();
+    private final ObjectMapper objectMapper =
+            new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 
     /** Constructs a {@code HttpBody} with no contents (that is, zero length). */
     public HttpBody() {
@@ -368,8 +373,21 @@ public abstract class HttpBody {
             return cachedString;
         }
 
-        cachedString = createString(charset);
+        String rawString = createString(charset);
+        cachedString = getPrettyJson(rawString);
         return cachedString;
+    }
+
+    private String getPrettyJson(String rawString) {
+        if (rawString.isBlank()) return "";
+
+        try {
+            return objectMapper.writeValueAsString(objectMapper.readTree(rawString));
+        } catch (JsonProcessingException e) {
+            LOGGER.warn(
+                    "An error occurred while formatting body to pretty Json: {}", e.getMessage());
+        }
+        return rawString;
     }
 
     /**
@@ -560,7 +578,7 @@ public abstract class HttpBody {
             return;
         }
 
-        Charset newCharset = null;
+        Charset newCharset;
         try {
             newCharset = Charset.forName(charsetName);
             if (newCharset != charset) {

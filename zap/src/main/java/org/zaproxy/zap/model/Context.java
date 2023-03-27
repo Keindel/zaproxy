@@ -396,7 +396,7 @@ public class Context {
     }
 
     public void excludeFromContext(StructuralNode sn, boolean recurse) throws Exception {
-        addExcludeFromContextRegex(sn.getRegexPattern(recurse));
+        addExcludeFromContextRegex(sn.getRegexPattern(recurse, false));
     }
 
     public void addIncludeInContextRegex(String includeRegex) {

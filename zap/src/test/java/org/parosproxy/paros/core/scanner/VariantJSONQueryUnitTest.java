@@ -162,7 +162,7 @@ class VariantJSONQueryUnitTest {
         List<NameValuePair> parameters = variantJSONQuery.getParamList();
         variantJSONQuery.setParameter(message, parameters.get(0), "", "injection");
         // Then
-        assertThat(message.getRequestBody().toString(), is("{\"a\": \"injection\"}"));
+        assertThat(message.getRequestBody().toString(), is("{\n  \"a\" : \"injection\"\n}"));
     }
 
     @Test
@@ -176,7 +176,7 @@ class VariantJSONQueryUnitTest {
         List<NameValuePair> parameters = variantJSONQuery.getParamList();
         variantJSONQuery.setParameter(message, parameters.get(1), "", "injection");
         // Then
-        assertThat(message.getRequestBody().toString(), is("[null, \"injection\"]"));
+        assertThat(message.getRequestBody().toString(), is("[ null, \"injection\" ]"));
     }
 
     @ParameterizedTest
@@ -306,11 +306,11 @@ class VariantJSONQueryUnitTest {
         assertThat(parameters.get(1).getName(), is("b"));
         assertThat(parameters.get(1).getValue(), is("-2"));
         assertThat(parameters.get(2).getName(), is("c"));
-        assertThat(parameters.get(2).getValue(), is("3.4e5"));
+        assertThat(parameters.get(2).getValue(), is("340000.0"));
         assertThat(parameters.get(3).getName(), is("d"));
-        assertThat(parameters.get(3).getValue(), is("-6E+7"));
+        assertThat(parameters.get(3).getValue(), is("-6.0E7"));
         assertThat(parameters.get(4).getName(), is("e"));
-        assertThat(parameters.get(4).getValue(), is("8e-9"));
+        assertThat(parameters.get(4).getValue(), is("8.0E-9"));
     }
 
     @Test
@@ -326,11 +326,11 @@ class VariantJSONQueryUnitTest {
         assertThat(parameters.get(1).getName(), is("@items[1]"));
         assertThat(parameters.get(1).getValue(), is("-2"));
         assertThat(parameters.get(2).getName(), is("@items[2]"));
-        assertThat(parameters.get(2).getValue(), is("3.4e5"));
+        assertThat(parameters.get(2).getValue(), is("340000.0"));
         assertThat(parameters.get(3).getName(), is("@items[3]"));
-        assertThat(parameters.get(3).getValue(), is("-6E+7"));
+        assertThat(parameters.get(3).getValue(), is("-6.0E7"));
         assertThat(parameters.get(4).getName(), is("@items[4]"));
-        assertThat(parameters.get(4).getValue(), is("8e-9"));
+        assertThat(parameters.get(4).getValue(), is("8.0E-9"));
     }
 
     @Test
@@ -347,7 +347,8 @@ class VariantJSONQueryUnitTest {
         // Then
         assertThat(
                 message.getRequestBody().toString(),
-                is("{ \"a\": 1, \"b\": -2, \"c\": \"injection\", \"d\": -6E+7, \"e\": 8e-9 }"));
+                is(
+                        "{\n  \"a\" : 1,\n  \"b\" : -2,\n  \"c\" : \"injection\",\n  \"d\" : -6.0E7,\n  \"e\" : 8.0E-9\n}"));
     }
 
     @Test
@@ -364,7 +365,8 @@ class VariantJSONQueryUnitTest {
         // Then
         assertThat(
                 message.getRequestBody().toString(),
-                is("{ \"a\": 1, \"b\": -2, \"c\": injection, \"d\": -6E+7, \"e\": 8e-9 }"));
+                is(
+                        "{\n  \"a\" : 1,\n  \"b\" : -2,\n  \"c\" : injection,\n  \"d\" : -6.0E7,\n  \"e\" : 8.0E-9\n}"));
     }
 
     @Test
@@ -378,7 +380,8 @@ class VariantJSONQueryUnitTest {
         variantJSONQuery.setParameter(message, parameters.get(2), "", "injection");
         // Then
         assertThat(
-                message.getRequestBody().toString(), is("[ 1, -2, \"injection\", -6E+7, 8e-9 ]"));
+                message.getRequestBody().toString(),
+                is("[ 1, -2, \"injection\", -6.0E7, 8.0E-9 ]"));
     }
 
     @Test
@@ -391,7 +394,7 @@ class VariantJSONQueryUnitTest {
         List<NameValuePair> parameters = variantJSONQuery.getParamList();
         variantJSONQuery.setEscapedParameter(message, parameters.get(2), "", "injection");
         // Then
-        assertThat(message.getRequestBody().toString(), is("[ 1, -2, injection, -6E+7, 8e-9 ]"));
+        assertThat(message.getRequestBody().toString(), is("[ 1, -2, injection, -6.0E7, 8.0E-9 ]"));
     }
 
     private static HttpMessage getMessageWithBody(String body) throws HttpMalformedHeaderException {

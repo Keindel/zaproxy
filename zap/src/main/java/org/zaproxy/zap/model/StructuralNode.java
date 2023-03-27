@@ -38,7 +38,7 @@ public interface StructuralNode {
 
     String getRegexPattern() throws DatabaseException;
 
-    String getRegexPattern(boolean incChildren) throws DatabaseException;
+    String getRegexPattern(boolean incChildren, boolean isForUI) throws DatabaseException;
 
     URI getURI();
 

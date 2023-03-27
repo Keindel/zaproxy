@@ -47,7 +47,7 @@ public class PopupMenuAddBreakSites extends PopupMenuItemSiteNodeContainer {
     @Override
     public void performAction(SiteNode sn) {
         try {
-            uiManager.handleAddBreakpoint(new StructuralSiteNode(sn).getRegexPattern(false));
+            uiManager.handleAddBreakpoint(new StructuralSiteNode(sn).getRegexPattern(false, true));
         } catch (DatabaseException e) {
             // Ignore
         }
